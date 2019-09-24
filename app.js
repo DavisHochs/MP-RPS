@@ -240,8 +240,11 @@ $(document).on("click", ".set-name", function(e) {
 
     $(document).on("click", ".new-game", function (){
       startOver();
-      updatePlayers();
-  });
+      
+    });
+  
+  
+  
   function startOver() {
     player1.choice.rock = false;
       player1.choice.paper = false;
@@ -253,6 +256,7 @@ $(document).on("click", ".set-name", function(e) {
       player2.choice.scissors = false;
       player2.choice.hasPicked = false;
       gameOver=false;
+      updatePlayers();
   }
      
 });
