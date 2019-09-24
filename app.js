@@ -43,6 +43,7 @@ let player2 = {
 
 
   $(document).ready(function(){
+    startOver();
     updatePlayers();
     
     
@@ -242,7 +243,11 @@ $(document).on("click", ".set-name", function(e) {
 
 
     $(document).on("click", ".new-game", function (){
-      player1.choice.rock = false;
+      startOver();
+      updatePlayers();
+  });
+  function startOver() {
+    player1.choice.rock = false;
       player1.choice.paper = false;
       player1.choice.scissors = false;
       player1.choice.hasPicked = false;
@@ -252,7 +257,6 @@ $(document).on("click", ".set-name", function(e) {
       player2.choice.scissors = false;
       player2.choice.hasPicked = false;
       gameOver=false;
-      updatePlayers();
-  });
+  }
      
 });
