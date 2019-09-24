@@ -1,5 +1,5 @@
 // Your web app's Firebase configuration
-  var firebaseConfig = {
+  let firebaseConfig = {
     apiKey: "AIzaSyDJ04cD1xgXu8_sF-pZLvRwmZfDN5j-DuQ",
     authDomain: "rock-paper-scissors-5e0e7.firebaseapp.com",
     databaseURL: "https://rock-paper-scissors-5e0e7.firebaseio.com",
@@ -43,6 +43,9 @@ let player2 = {
 
 
   $(document).ready(function(){
+    updatePlayers();
+    
+    
     $('#player1-controls').hide()
     $('#player2-controls').hide()
     //Updates the local changes to FB
@@ -96,7 +99,7 @@ $(document).on("click", ".set-name", function(e) {
         //save Player1 to FireBase
         player1.connected = true;
         player1.name = $("#player_name").val().trim();
-        updatePlayers()
+        updatePlayers();
         readData();
         $("#player1-controls").show();
         
@@ -113,14 +116,6 @@ $(document).on("click", ".set-name", function(e) {
 });
     
 
-    // database.ref().on("child_added", function (snapshot) {
-    //     let sv = snapshot.val();
-    //     addRow(sv);
-    //     console.log(sv.name);
-    //     console.log(sv.role);
-    //     console.log(sv.startDate);
-    //     console.log(sv.monthlyRate);
-    // })
 
     $(document).on('click', '.player1-choice', function(){
       let player1Choice = $(this).data('value');
