@@ -43,10 +43,6 @@ let player2 = {
 
 
   $(document).ready(function(){
-    window.onload = startOver();
-    window.onload = updatePlayers();
-    
-    
     $('#player1-controls').hide()
     $('#player2-controls').hide()
     //Updates the local changes to FB
