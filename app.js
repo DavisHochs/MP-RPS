@@ -43,8 +43,8 @@ let player2 = {
 
 
   $(document).ready(function(){
-    startOver();
-    updatePlayers();
+    window.onload = startOver();
+    window.onload = updatePlayers();
     
     
     $('#player1-controls').hide()
