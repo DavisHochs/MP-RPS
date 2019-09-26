@@ -1,0 +1,32 @@
+body {
+    background-image: url('beanstalk.png');
+    background-repeat: repeat;
+}
+
+#message-box {
+    min-height: 200px;
+    overflow: scroll;
+    background-color: #cccccc;
+    border: 2px #b0b0b0 solid;
+    border-radius: 4px;
+    margin-bottom: 8px;
+}
+
+.status-msg {
+    color:green;
+}
+
+.choice-text {
+    font-weight: bold;
+}
+.win-text {
+    color: blue;
+}
+.row {
+    margin-top: 35px;
+    margin-bottom: 35px;
+}
+h1 {
+    font-family: 'Caveat Brush', cursive;
+    font-size: 90px;
+}

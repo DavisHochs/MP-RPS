@@ -14,8 +14,11 @@
   let database = firebase.database();
 
   //Global Variables
-  gameOver = false;
-  
+  let gameOver = false;
+  let currentPlayer;
+  let noStatus = "N/A"
+  let globalCounter = 0;
+  let clearObj = {};
   
   
 let player1 = {
@@ -25,7 +28,8 @@ let player1 = {
     losses: 0,
     ties: 0,
     hasWon: false,
-    connected: false
+    connected: false,
+    
   }
 
 let player2 = {
@@ -35,7 +39,8 @@ let player2 = {
     losses: 0,
     ties: 0,
     hasWon: false,
-    connected: false
+    connected: false,
+    
 }
 
 
@@ -45,15 +50,54 @@ let player2 = {
   $(document).ready(function(){
     $('#player1-controls').hide()
     $('#player2-controls').hide()
+    
+    
+    
     //Updates the local changes to FB
     function updatePlayers(){
-        database.ref().set({
+      
+      database.ref().set({
             players: {
                 player1, 
                 player2,
-                gameOver}
+                gameOver},
+                
           });
     }
+
+    function getName() {
+      let name;
+        if(currentPlayer == 'Player1'){
+          name = player1.name;
+        }else {
+          name = player2.name;
+        }
+
+        return name;
+    }
+
+    function updateMessage(){
+      let name =  getName();
+      let msg = `[${new moment().format("HH:mm A")}] ${name}: ${$("#message").val()}`
+      database.ref("messages").push({
+          msg
+      });
+      $("#message").val("");
+ 
+}
+
+    
+    
+
+
+    database.ref('messages').on('child_added', function(snapshot){
+      let sv = snapshot.val();
+      $('#message-box').append(sv.msg);
+    });
+   
+
+
+
     //set the name of players
     database.ref().on("value", function (snapshot) {
         let sv = snapshot.val();
@@ -65,6 +109,7 @@ let player2 = {
             player1 = sv.players.player1;
             player2 = sv.players.player2;
             gameOver = sv.players.gameOver;
+            
             console.log(player1);
             console.log(player2);
             gameLogic();
@@ -73,6 +118,8 @@ let player2 = {
                 $("#newgame").empty();
             }
         }
+
+        
     })
 
     function readData(){
@@ -88,26 +135,51 @@ let player2 = {
         $("#player2Wins").text(`Wins: ${player2.wins}`);
         $("#player2Losses").text(`Losses: ${player2.losses}`);
         $("#player2Ties").text(`Ties: ${player2.ties}`);
+
+        
+
+        
     }
 
 $(document).on("click", ".set-name", function(e) {
     e.preventDefault();
     if(player1.connected == false && player2.connected == false){
         //save Player1 to FireBase
+        currentPlayer = 'Player1'
         player1.connected = true;
         player1.name = $("#player_name").val().trim();
         updatePlayers();
         readData();
         $("#player1-controls").show();
+        let msg = `<p class="status-msg">[${new moment().format("HH:mm A")}] ${player1.name} connected.</p>`
+        database.ref("messages").push({
+            msg
+        });
         
         
     }else if(player1.connected == true && player2.connected == false){
         //save Player2 to FireBase
+        currentPlayer = 'Player2'
         player2.connected = true;
         player2.name = $("#player_name").val().trim();
         updatePlayers();
         readData();
         $("#player2-controls").show();
+        let msg = `<p class="status-msg">[${new moment().format("HH:mm A")}] ${player2.name} connected.</p>`
+        database.ref("messages").push({
+            msg
+        });
+    }else if(player1.connected == false && player2.connected == true) {
+      currentPlayer = 'Player1'
+        player1.connected = true;
+        player1.name = $("#player_name").val().trim();
+        updatePlayers();
+        readData();
+        $("#player1-controls").show();
+        let msg = `<p class="status-msg">[${new moment().format("HH:mm A")}] ${player1.name} connected.</p>`
+        database.ref("messages").push({
+            msg
+        });
     }
     
 });
@@ -122,6 +194,7 @@ $(document).on("click", ".set-name", function(e) {
           if(player1.choice.hasPicked == false) {
             player1.choice.rock = true;
             player1.choice.hasPicked = true;
+            $('#message-box').append(`<p><span class='choice-text'>You have picked rock!</span></p>`);
             console.log(player1.choice.rock);
             updatePlayers();
             
@@ -132,6 +205,7 @@ $(document).on("click", ".set-name", function(e) {
           if(player1.choice.hasPicked == false) {
             player1.choice.paper = true;
             player1.choice.hasPicked = true;
+            $('#message-box').append(`<p><span class='choice-text'>You have picked paper!</span></p>`);
             console.log("Picked paper");
             updatePlayers();
           }
@@ -140,6 +214,7 @@ $(document).on("click", ".set-name", function(e) {
             if(player1.choice.hasPicked == false) {
             player1.choice.scissors = true;
             player1.choice.hasPicked = true;
+            $('#message-box').append(`<p><span class='choice-text'>You have picked scissors!</span></p>`);
             console.log("Picked scissors");
             updatePlayers();
             }
@@ -156,6 +231,7 @@ $(document).on("click", ".set-name", function(e) {
           if(player2.choice.hasPicked == false) {
               player2.choice.rock = true;
               player2.choice.hasPicked = true;
+              $('#message-box').append(`<p><span class='choice-text'>You have picked rock!</span></p>`);
               console.log("Picked rock");
               updatePlayers();
             }
@@ -164,7 +240,7 @@ $(document).on("click", ".set-name", function(e) {
           if(player2.choice.hasPicked == false) {
               player2.choice.paper = true;
               player2.choice.hasPicked = true;
-              console.log("Picked paper");
+              $('#message-box').append(`<p><span class='choice-text'>You have picked paper!</span></p>`);              
               updatePlayers();
             }
           break;
@@ -172,6 +248,7 @@ $(document).on("click", ".set-name", function(e) {
           if(player2.choice.hasPicked == false) {
             player2.choice.scissors = true;
             player2.choice.hasPicked = true;
+            $('#message-box').append(`<p><span class='choice-text'>You have picked scissors!</span></p>`);
             console.log("Picked scissors");
             updatePlayers();
           }
@@ -184,6 +261,9 @@ $(document).on("click", ".set-name", function(e) {
       if(gameOver){
           $("#newgame").empty();
           $("#newgame").append(`<button class="btn btn-danger new-game">New Game</button>`)
+          if (currentPlayer == 'Player1') {
+            $('#message-box').append(`<p class='status-msg'>[${new moment().format("HH:mm A")}] ${player1.name} has started a new game.</p>`);
+          }
       }  
       if(player1.choice.hasPicked && player2.choice.hasPicked && gameOver == false){
           let player1_rock = player1.choice.rock;
@@ -193,42 +273,45 @@ $(document).on("click", ".set-name", function(e) {
           let player2_rock = player2.choice.rock;
           let player2_paper = player2.choice.paper;
           let player2_scissors = player2.choice.scissors;
+
+          
           
           if((player1_rock && player2_rock) || (player1_paper && player2_paper) || (player1_rock && player2_rock) || (player1_scissors && player2_scissors)){
           player1.ties++;
           player2.ties++;
-          console.log("its a tie");
+          $('#message-box').append("<p class='win-text'>Oh lawdy it's a tie!</p>")
           gameOver = true;
   
           }else if(player1_rock && player2_paper) {
             player1.losses++;
             player2.wins++;
-            console.log("Player 2 wins!");
+          
+            $('#message-box').append(`<p class="win-text">[${new moment().format("HH:mm A")}] ${player2.name} wins! Rock is suffocated by paper.</p>`);
             gameOver = true;
           }else if(player1_rock && player2_scissors) {
             player1.wins++;
             player2.losses++;
-            console.log("Player 1 wins!");
+            $('#message-box').append(`<p class="win-text">[${new moment().format("HH:mm A")}] ${player1.name} wins! Scissors are bludgeoned by rock.</p>`);
             gameOver = true;
           }else if(player1_paper && player2_rock) {
             player1.wins++;
             player2.losses++;
-            console.log("Player 1 wins!");
+            $('#message-box').append(`<p class="win-text">[${new moment().format("HH:mm A")}] ${player1.name} wins! Rock is bullied into submission by paper.</p>`);
             gameOver = true;
           }else if(player1_scissors && player2_rock) {
             player1.losses++;
             player2.wins++;
-            console.log("Player 2 wins!");
+            $('#message-box').append(`<p class="win-text">[${new moment().format("HH:mm A")}] ${player2.name} wins! Scissors have a rock phobia.</p>`);
             gameOver = true;
           }else if(player1_scissors && player2_paper) {
             player1.wins++;
             player2.losses++;
-            console.log("Player 1 wins!");
+            $('#message-box').append(`<p class="win-text">[${new moment().format("HH:mm A")}] ${player1.name} wins! Paper was literally invented to be cut by scissors.</p>`);
             gameOver = true;
           }else if(player1_paper && player2_scissors) {
             player1.losses++;
             player2.wins++;
-            console.log("Player 2 wins!");
+            $('#message-box').append(`<p class="win-text">[${new moment().format("HH:mm A")}] ${player2.name} wins! Paper's mental constitution is nothing compared to scissors.</p>`);
             gameOver = true;
           }
           
@@ -240,6 +323,7 @@ $(document).on("click", ".set-name", function(e) {
 
     $(document).on("click", ".new-game", function (){
       startOver();
+      updatePlayers();
       
     });
   
@@ -250,13 +334,55 @@ $(document).on("click", ".set-name", function(e) {
       player1.choice.paper = false;
       player1.choice.scissors = false;
       player1.choice.hasPicked = false;
+      player1.choiceStr = "";
   
       player2.choice.rock = false;
       player2.choice.paper = false;
       player2.choice.scissors = false;
       player2.choice.hasPicked = false;
+      player2.choiceStr = "";
       gameOver=false;
-      updatePlayers();
+      
   }
+
+   //detecs window close
+   $(window).on("unload", function(e) {
+    if(currentPlayer == "Player1"){
+      player1.connected = false;
+      updatePlayers();
+
+       //send status msg
+      let msg = `<p class="status-msg">[${new moment().format("HH:mm")}] ${player1.name} dissconnected. Resetting game...</p>`
+      database.ref("messages").push({
+          msg
+      });
+  }else if(currentPlayer == "Player2"){
+      player2.connected = false;
+      updatePlayers();
+
+      //send status msg
+      let msg = `<p class="status-msg">[${new moment().format("HH:mm")}] ${player2.name} dissconnected. Resetting game...</p>`
+      database.ref("messages").push({
+          msg
+      });
+  }
+  startNewGameSession(); 
+    
+});
+
+function startNewGameSession(){
+    database.ref().set({
+      clearObj
+    });
+    $("#newgame").append(`<button class="btn btn-danger new-game">New Game</button>`);
+    console.log('clear fb')
+}
+
+$(document).on('click', ".send-message", function() {
+  updateMessage();
+});
      
+
+
+      
 });

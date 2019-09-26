@@ -9,19 +9,24 @@
      
 <!-- Compiled and minified CSS -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-<link rel="stylesheet" href="assets/css/style.css">
+<link href="https://fonts.googleapis.com/css?family=Caveat+Brush&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+
 
 <!--Firebase-->
 <script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
   <!-- Moment.js Reference -->
 <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/locale/af.js" integrity="sha256-I5ZXO8KcMnqNkrXU7baGig70nATYjNDnxxA2d40PcR8=" crossorigin="anonymous"></script>
   
 </head>
 <body>
    
 <div class="container">
-        <div class="jumbotron"><h1>Rock, Paper, Scissors</h1></div>
+      <h1 class="text-center">Rock Paper Scissors</h1>
       <div class="row">
         <div class="col-md-8 offset-md-2">
           <div id="modal">
@@ -54,6 +59,16 @@
                   <h4 id="player2Losses">Losses: 0</h4>
                   <h4 id="player2Ties">Ties: 0</h4>
             </div>
+            </div>
+            
+            <div class="row">
+              <h2>Messages:</h2>
+              <div id="message-box" class="col-md-12" ></div>
+              <input id="message" type="text" class="col-md-10">
+              <button type="submit"  class="btn btn-secondary col-md-2 send-message">Send</button>
+
+            
+           
             </div>
             
             
