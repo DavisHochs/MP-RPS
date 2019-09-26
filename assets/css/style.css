@@ -11,6 +11,12 @@ body {
     border-radius: 4px;
     margin-bottom: 8px;
 }
+.btn-primary {
+    background-color: #ffc573;
+}
+.btn-primary:hover {
+    background-color: #ffa629;
+}
 
 .status-msg {
     color:green;

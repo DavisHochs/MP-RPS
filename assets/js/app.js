@@ -375,13 +375,14 @@ $(document).on("click", ".set-name", function(e) {
     if(currentPlayer == "Player1"){
       unloadP1();
       updatePlayers();
-      $('#player2-controls').hide();
+      
       $('#waiting-for').append('<h2>Waiting for another player to connect...</h2>');
 
       if (player1.connected == false && player2.connected == false) {
+        $('#waiting-for').append('<h2>Waiting for another player to connect...</h2>');
         startNewGameSession();
       }else if(player1.connected == false && player2.connected) {
-        let msg = `<p class="status-msg">[${new moment().format("HH:mm")}] ${player1.name} dissconnected. Resetting game...</p>`
+        let msg = `<p class="status-msg">[${new moment().format("HH:mm")}] ${player1.name} dissconnected.</p>`
       database.ref("messages").push({
           msg
       });
@@ -392,12 +393,12 @@ $(document).on("click", ".set-name", function(e) {
   }else if(currentPlayer == "Player2"){
     unloadP2();
     updatePlayers();
-    testRemove();
+    
     $('#waiting-for').append('<h2>Waiting for another player to connect...</h2>');
     if (player1.connected == false && player2.connected == false) {
       startNewGameSession();
     }else if(player1.connected && player2.connected == false) {
-      let msg = `<p class="status-msg">[${new moment().format("HH:mm")}] ${player2.name} dissconnected. Resetting game...</p>`
+      let msg = `<p class="status-msg">[${new moment().format("HH:mm")}] ${player2.name} dissconnected.</p>`
       database.ref("messages").push({
           msg
       });
