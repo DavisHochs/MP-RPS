@@ -10,7 +10,7 @@
 <!-- Compiled and minified CSS -->
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <link href="https://fonts.googleapis.com/css?family=Caveat+Brush&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/css/style.css">
+<link rel="stylesheet" href="assets/css/style.css">
 
 
 <!--Firebase-->
@@ -41,6 +41,7 @@
              <div id="newgame"></div>
           </div>
             <div class="row">
+              <div id="waiting-for"></div>
                 <div id="player1-controls" class="col-md-6">
                     <h2 id="player1-h2">Player 1 Controls</h2>
                     <button class="btn btn-primary player1-choice" data-value="rock">Rock</button>
@@ -50,15 +51,15 @@
                     <h4 id="player1Losses">Losses: 0</h4>
                     <h4 id="player1Ties">Ties: 0</h4>
             </div>
-            <div id="player2-controls" class="col-md-6">
-                  <h2 id="player2-h2">Player 2 Controls</h2>
-                  <button class="btn btn-primary player2-choice" data-value="rock">Rock</button>
-                  <button class="btn btn-primary player2-choice" data-value="paper">Paper</button>
-                  <button class="btn btn-primary player2-choice"  data-value="scissors">Scissors</button>
-                  <h4 id="player2Wins">Wins: 0</h4>
-                  <h4 id="player2Losses">Losses: 0</h4>
-                  <h4 id="player2Ties">Ties: 0</h4>
-            </div>
+              <div id="player2-controls" class="col-md-6">
+                    <h2 id="player2-h2">Player 2 Controls</h2>
+                    <button class="btn btn-primary player2-choice" data-value="rock">Rock</button>
+                    <button class="btn btn-primary player2-choice" data-value="paper">Paper</button>
+                    <button class="btn btn-primary player2-choice"  data-value="scissors">Scissors</button>
+                    <h4 id="player2Wins">Wins: 0</h4>
+                    <h4 id="player2Losses">Losses: 0</h4>
+                    <h4 id="player2Ties">Ties: 0</h4>
+              </div>
             </div>
             
             <div class="row">
@@ -66,15 +67,12 @@
               <div id="message-box" class="col-md-12" ></div>
               <input id="message" type="text" class="col-md-10">
               <button type="submit"  class="btn btn-secondary col-md-2 send-message">Send</button>
-
-            
-           
             </div>
             
             
         </div>
       </div>
 </div>
-<script src="/assets/js/app.js"></script>
+<script src="assets/js/app.js"></script>
 </body>
 </html>

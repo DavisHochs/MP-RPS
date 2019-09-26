@@ -345,28 +345,68 @@ $(document).on("click", ".set-name", function(e) {
       
   }
 
+  function unloadP1() {
+    player1 = {
+      name: "Player 1",
+      choice: {rock: false, paper: false, scissors: false, hasPicked: false},
+      wins: 0,
+      losses: 0,
+      ties: 0,
+      hasWon: false,
+      connected: false,
+  }
+  
+}
+
+  function unloadP2() {
+    player2 = {
+      name: "Player 2",
+      choice: {rock: false, paper: false, scissors: false, hasPicked: false},
+      wins: 0,
+      losses: 0,
+      ties: 0,
+      hasWon: false,
+      connected: false,
+  }
+}
+
    //detecs window close
    $(window).on("unload", function(e) {
     if(currentPlayer == "Player1"){
-      player1.connected = false;
+      unloadP1();
       updatePlayers();
+      $('#player2-controls').hide();
+      $('#waiting-for').append('<h2>Waiting for another player to connect...</h2>');
 
-       //send status msg
-      let msg = `<p class="status-msg">[${new moment().format("HH:mm")}] ${player1.name} dissconnected. Resetting game...</p>`
+      if (player1.connected == false && player2.connected == false) {
+        startNewGameSession();
+      }else if(player1.connected == false && player2.connected) {
+        let msg = `<p class="status-msg">[${new moment().format("HH:mm")}] ${player1.name} dissconnected. Resetting game...</p>`
       database.ref("messages").push({
           msg
       });
-  }else if(currentPlayer == "Player2"){
-      player2.connected = false;
-      updatePlayers();
+      }
 
-      //send status msg
+       //send status msg
+      
+  }else if(currentPlayer == "Player2"){
+    unloadP2();
+    updatePlayers();
+    testRemove();
+    $('#waiting-for').append('<h2>Waiting for another player to connect...</h2>');
+    if (player1.connected == false && player2.connected == false) {
+      startNewGameSession();
+    }else if(player1.connected && player2.connected == false) {
       let msg = `<p class="status-msg">[${new moment().format("HH:mm")}] ${player2.name} dissconnected. Resetting game...</p>`
       database.ref("messages").push({
           msg
       });
+    }
+      //send status msg
+      
+
   }
-  startNewGameSession(); 
+  
     
 });
 
@@ -374,15 +414,16 @@ function startNewGameSession(){
     database.ref().set({
       clearObj
     });
-    $("#newgame").append(`<button class="btn btn-danger new-game">New Game</button>`);
-    console.log('clear fb')
+    
 }
 
 $(document).on('click', ".send-message", function() {
   updateMessage();
 });
      
-
+function testRemove() {
+  $('#player1-controls').hide();
+}
 
       
 });

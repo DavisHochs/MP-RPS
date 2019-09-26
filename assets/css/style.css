@@ -30,3 +30,6 @@ h1 {
     font-family: 'Caveat Brush', cursive;
     font-size: 90px;
 }
+#message-box {
+    overflow:scroll;
+}
